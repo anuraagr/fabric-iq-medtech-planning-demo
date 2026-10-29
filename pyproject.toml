@@ -1,0 +1,8 @@
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-ra --strict-markers"
+markers = [
+    "live: touches the real Fabric tenant (read-only unless a test says otherwise); needs FPD_LIVE=1 and an Azure CLI sign-in",
+]

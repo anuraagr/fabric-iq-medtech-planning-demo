@@ -1,0 +1,8 @@
+// Smoke test against the official Northwind_FMCG model (existing measures only; nothing invented).
+// Expected (verified from the sample's embedded data): 25,866,900 / 14,166,310 / 11,700,590.
+EVALUATE
+ROW(
+    "Gross Revenue 2025", [2025 Gross Revenue],
+    "COGS 2025", [2025 COGS],
+    "Gross Profit 2025", [2025 Gross Revenue] - [2025 COGS]
+)

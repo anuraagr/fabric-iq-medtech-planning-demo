@@ -1,0 +1,10 @@
+# Tested with Python 3.13.14 on Windows 11, Azure CLI 2.91.0, ODBC Driver 18 for SQL Server.
+requests==2.32.5
+PyYAML==6.0.3
+pyodbc==5.3.0
+python-dotenv==1.2.1
+pytest==9.0.3
+# Native-UI automation (scripts/ui; Pillow turns screenshots into the documentation images) and the synthetic asset workbook
+playwright==1.64.0
+Pillow==12.1.0
+openpyxl==3.1.5

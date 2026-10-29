@@ -1,0 +1,37 @@
+# --- Secrets and local environment (never commit) ---
+.env
+.env.*
+!.env.example
+*.pem
+*.pfx
+*.key
+*.token
+secrets/
+
+# --- Local, tenant-specific runtime state (IDs only, but environment specific) ---
+state/*
+!state/.gitkeep
+!state/*.example.json
+reports/*
+!reports/.gitkeep
+assets/*
+!assets/.gitkeep
+config/demo.config.yaml
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+.coverage
+htmlcov/
+
+# --- Tooling / editors ---
+.azure/
+.vscode/
+.idea/
+*.log
+plan/exported/

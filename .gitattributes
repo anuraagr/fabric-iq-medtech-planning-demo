@@ -1,0 +1,13 @@
+# Normalise sources on every platform; keep binaries untouched.
+* text=auto
+*.py text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.svg text eol=lf
+*.excalidraw text eol=lf
+*.xlsx binary
+*.pbix binary
+*.png binary
+*.jpg binary

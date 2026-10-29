@@ -1,0 +1,98 @@
+# Non-secret demo settings. Copy to config/demo.config.yaml (git-ignored) to override.
+# Tenant, workspace and capacity IDs belong in .env, never here. This file is scanned for
+# secret-like keys on load and rejected if any are found.
+
+resource_prefix: FabricPlanningDemo
+manifest_path: state/deployment-manifest.json
+
+# {prefix} is replaced with resource_prefix.
+# Do not rename the semantic model or the workspace after a Plan item is connected to it
+# (documented limitation: renaming breaks the plan item).
+# semantic_model / plan_item: the official Microsoft FMCG sample kept as the verified tutorial baseline.
+# medtech_model / medtech_plan: the healthcare (MedTech & Life Sciences) demo that is the headline story.
+names:
+  semantic_model: "{prefix}_Northwind_FMCG"
+  writeback_db: "{prefix}_Writeback"
+  powertable_db: "{prefix}_PowerTable"
+  plan_item: "{prefix}_Plan"
+  medtech_model: "{prefix}_MedTech"
+  medtech_plan: "{prefix}_MedTech_Plan"
+
+medtech:
+  # Planning writeback tables (Fabric SQL) surfaced in the MedTech semantic model for reporting. The model is
+  # These are specifications, NOT initial deployment dependencies. Complete native UI writeback first,
+  # then attach with `deploy.py apply --only medtech_model --update-medtech-model --include-writeback`.
+  writeback_tables:
+    - source_table: medtech_revenue_budget_fy2026
+      model_table: Plan Revenue Budget
+      series: FY2026 Revenue Budget
+      measure: Plan Budget Revenue
+    # The rolling forecast is planned by region (no product category): role "forecast" adds Forecast vs Budget measures and T-10 reconciles it.
+    - source_table: medtech_rolling_forecast_fy2026
+      model_table: Plan Revenue Forecast
+      series: FY2026 Forecast
+      measure: Plan Forecast Revenue
+      role: forecast
+      dimensions: [Region]
+  # The cells edited in the writeback proofs; T-10 checks them through the semantic model: the budget leaf (T-09) and, at the forecast's
+  # grain (region x month, no category), the same region and month of the rolling forecast (T-14, edited from 5,662,104.37 to 6,000,000).
+  reporting_check:
+    leaf:
+      region: Europe
+      category: Diagnostics & Imaging
+      year: "2026"
+      month: Oct
+  # The comment added to that budget cell on the FY2026 Revenue Budget sheet (Comments > Add Comment). Writeback stores it in the IrComments
+  # column of the cell's row; T-16 checks the text, that no thread is assigned, that nothing is @mentioned and that the value did not move.
+  comment_check:
+    table: dbo.medtech_revenue_budget_fy2026
+    series: FY2026 Revenue Budget
+    leaf:
+      region: Europe
+      category: Diagnostics & Imaging
+      year: "2026"
+      month: Oct
+    contains: diagnostics launch
+  # The "Upside" and "Downside" scenarios built on the Scenario Comparison sheet and verified by T-06 against the plan-year baseline
+  # (Upside: sales +3 %, COGS -2 %; Downside: sales -4 %, COGS +3 %), plus their gross-profit ranking. Their writeback destination is
+  # created in the Planning UI; the table lives in the writeback database. Base is never written back.
+  scenario:
+    table: dbo.medtech_scenario_plan_fy2026
+    year: "2026"
+    sales_series: Sales Plan
+    cogs_series: COGS Plan
+    scenarios:
+      - {name: Upside, sales_driver: 0.03, cogs_driver: -0.02}
+      - {name: Downside, sales_driver: -0.04, cogs_driver: 0.03}
+  # PowerTable column rules configured on the Assets sheet (Setup > Columns) and checked by T-15 against the saved plan definition and the stored rows.
+  powertable_rules:
+    sheet: Assets
+    table: assets
+    required: [Asset Tag, Status]
+    closed_lists: [Status]
+    lookups:
+      Assigned To: {table: employees, key: Employee Id, label: Full Name}
+      Location: {table: locations, key: Location Id, label: Location}
+    bounds:
+      Expected Lifetime In Years: {min: 1, max: 30}
+      Purchase Price: {min: 0}
+
+# Official Microsoft sample assets, pinned to a commit and verified by SHA-256 after download.
+# Source: https://github.com/microsoft/fabric-samples/tree/main/docs-samples/iq/plan
+sample:
+  repository: microsoft/fabric-samples
+  path: docs-samples/iq/plan
+  commit: 9379bb140202eb4d256f44e2625c80b24c939131
+  files:
+    Northwind_FMCG.pbix:
+      sha256: 01ce29bb216df26bd4486d989b508c0cf70790abe9b6c99ceb9c5c6730e53503
+      bytes: 9302099
+    Northwind-FMCG-assets-powertable-tutorial.xlsx:
+      sha256: 8f8a864604ba23ad39acd175546bd88cabdff85e3cbd868be89cd39732eb17f6
+      bytes: 35728
+    region_dimension_pt.xlsx:
+      sha256: 927ca84b6391c4e5e136cb7d861dda68356a124d551024d4d9c611a7de6520fd
+      bytes: 6458
+    gantt-data.csv:
+      sha256: df28d4aa1b66273b3a3a1d2164b214a7235f492a9b65dbb16a7e77a231a38440
+      bytes: 1211

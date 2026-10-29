@@ -1,0 +1,748 @@
+{
+  "tables": [
+    {
+      "name": "[Fact] Sales",
+      "hidden": true,
+      "partitionKinds": [
+        "m/import"
+      ],
+      "columns": [
+        {
+          "name": "Sales Key",
+          "dataType": "string",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": false
+        },
+        {
+          "name": "Product Key",
+          "dataType": "string",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": false
+        },
+        {
+          "name": "Geography Key",
+          "dataType": "string",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": false
+        },
+        {
+          "name": "Date Key",
+          "dataType": "string",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": false
+        },
+        {
+          "name": "Units Sold",
+          "dataType": "int64",
+          "summarizeBy": "sum",
+          "hidden": true,
+          "calculated": false
+        },
+        {
+          "name": "Gross Revenue",
+          "dataType": "double",
+          "summarizeBy": "sum",
+          "hidden": true,
+          "calculated": false
+        },
+        {
+          "name": "COGS",
+          "dataType": "double",
+          "summarizeBy": "sum",
+          "hidden": true,
+          "calculated": false
+        },
+        {
+          "name": "Gross Profit",
+          "dataType": "double",
+          "summarizeBy": "sum",
+          "hidden": true,
+          "calculated": false
+        }
+      ],
+      "measures": []
+    },
+    {
+      "name": "Date",
+      "hidden": false,
+      "partitionKinds": [
+        "calculated/import"
+      ],
+      "columns": [
+        {
+          "name": "Date Key",
+          "dataType": "",
+          "summarizeBy": "none",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Year",
+          "dataType": "",
+          "summarizeBy": "none",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Month",
+          "dataType": "",
+          "summarizeBy": "none",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Month Name",
+          "dataType": "",
+          "summarizeBy": "none",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Quarter",
+          "dataType": "",
+          "summarizeBy": "none",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Year Quarter",
+          "dataType": "",
+          "summarizeBy": "none",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Year Month",
+          "dataType": "",
+          "summarizeBy": "none",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Half Year",
+          "dataType": "",
+          "summarizeBy": "none",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Month Short",
+          "dataType": "",
+          "summarizeBy": "none",
+          "hidden": false,
+          "calculated": false
+        }
+      ],
+      "measures": []
+    },
+    {
+      "name": "DateTableTemplate_a15fdceb-9476-4ffc-8fb6-87052912fc69",
+      "hidden": true,
+      "partitionKinds": [
+        "calculated/import"
+      ],
+      "columns": [
+        {
+          "name": "Date",
+          "dataType": "dateTime",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": false
+        },
+        {
+          "name": "Year",
+          "dataType": "int64",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": true
+        },
+        {
+          "name": "MonthNo",
+          "dataType": "int64",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": true
+        },
+        {
+          "name": "Month",
+          "dataType": "string",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": true
+        },
+        {
+          "name": "QuarterNo",
+          "dataType": "int64",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": true
+        },
+        {
+          "name": "Quarter",
+          "dataType": "string",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": true
+        },
+        {
+          "name": "Day",
+          "dataType": "int64",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": true
+        }
+      ],
+      "measures": []
+    },
+    {
+      "name": "Fact Transactions",
+      "hidden": false,
+      "partitionKinds": [
+        "calculated/import"
+      ],
+      "columns": [
+        {
+          "name": "Sales Key",
+          "dataType": "",
+          "summarizeBy": "none",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Product Key",
+          "dataType": "",
+          "summarizeBy": "none",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Geography Key",
+          "dataType": "",
+          "summarizeBy": "none",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Date Key",
+          "dataType": "",
+          "summarizeBy": "none",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Units Sold",
+          "dataType": "",
+          "summarizeBy": "sum",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Gross Revenue",
+          "dataType": "",
+          "summarizeBy": "sum",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "COGS",
+          "dataType": "",
+          "summarizeBy": "sum",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Gross Profit",
+          "dataType": "",
+          "summarizeBy": "sum",
+          "hidden": true,
+          "calculated": false
+        }
+      ],
+      "measures": []
+    },
+    {
+      "name": "Geography",
+      "hidden": false,
+      "partitionKinds": [
+        "m/import"
+      ],
+      "columns": [
+        {
+          "name": "Geography Key",
+          "dataType": "string",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": false
+        },
+        {
+          "name": "Region",
+          "dataType": "string",
+          "summarizeBy": "none",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "City",
+          "dataType": "string",
+          "summarizeBy": "none",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Sub Region",
+          "dataType": "string",
+          "summarizeBy": "none",
+          "hidden": false,
+          "calculated": false
+        }
+      ],
+      "measures": []
+    },
+    {
+      "name": "LocalDateTable_24a7bcf8-019a-4d42-a573-80bd95316999",
+      "hidden": true,
+      "partitionKinds": [
+        "calculated/import"
+      ],
+      "columns": [
+        {
+          "name": "Date",
+          "dataType": "dateTime",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": false
+        },
+        {
+          "name": "Year",
+          "dataType": "int64",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": true
+        },
+        {
+          "name": "MonthNo",
+          "dataType": "int64",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": true
+        },
+        {
+          "name": "Month",
+          "dataType": "string",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": true
+        },
+        {
+          "name": "QuarterNo",
+          "dataType": "int64",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": true
+        },
+        {
+          "name": "Quarter",
+          "dataType": "string",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": true
+        },
+        {
+          "name": "Day",
+          "dataType": "int64",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": true
+        }
+      ],
+      "measures": []
+    },
+    {
+      "name": "LocalDateTable_484057c1-8403-47b1-8281-b50c35728a84",
+      "hidden": true,
+      "partitionKinds": [
+        "calculated/import"
+      ],
+      "columns": [
+        {
+          "name": "Date",
+          "dataType": "dateTime",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": false
+        },
+        {
+          "name": "Year",
+          "dataType": "int64",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": true
+        },
+        {
+          "name": "MonthNo",
+          "dataType": "int64",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": true
+        },
+        {
+          "name": "Month",
+          "dataType": "string",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": true
+        },
+        {
+          "name": "QuarterNo",
+          "dataType": "int64",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": true
+        },
+        {
+          "name": "Quarter",
+          "dataType": "string",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": true
+        },
+        {
+          "name": "Day",
+          "dataType": "int64",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": true
+        }
+      ],
+      "measures": []
+    },
+    {
+      "name": "Measures Table",
+      "hidden": false,
+      "partitionKinds": [
+        "calculated/import"
+      ],
+      "columns": [
+        {
+          "name": "Value",
+          "dataType": "",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": false
+        }
+      ],
+      "measures": [
+        {
+          "name": "COGS",
+          "expression": "SUM('Fact Transactions'[COGS])",
+          "formatString": ""
+        },
+        {
+          "name": "Gross Revenue",
+          "expression": "SUM('Fact Transactions'[Gross Revenue])",
+          "formatString": ""
+        },
+        {
+          "name": "2025 COGS",
+          "expression": "CALCULATE(\n    SUM('Fact Transactions'[COGS]),\n    FILTER(\n        'Fact Transactions',\n        VALUE('Fact Transactions'[Date Key]) >= 202501 &&\n        VALUE('Fact Transactions'[Date Key]) <= 202512\n    )\n)",
+          "formatString": ""
+        },
+        {
+          "name": "2025 Gross Revenue",
+          "expression": "CALCULATE(\n    SUM('Fact Transactions'[Gross Revenue]),\n    FILTER(\n        'Fact Transactions',\n        VALUE('Fact Transactions'[Date Key]) >= 202501 &&\n        VALUE('Fact Transactions'[Date Key]) <= 202512\n    )\n)",
+          "formatString": ""
+        }
+      ]
+    },
+    {
+      "name": "P&L Measures",
+      "hidden": false,
+      "partitionKinds": [
+        "m/import"
+      ],
+      "columns": [
+        {
+          "name": "Invoice ID",
+          "dataType": "string",
+          "summarizeBy": "none",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Date",
+          "dataType": "dateTime",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": false
+        },
+        {
+          "name": "Sales Volume",
+          "dataType": "int64",
+          "summarizeBy": "sum",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Avg Selling Price",
+          "dataType": "double",
+          "summarizeBy": "sum",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Discounts and Returns",
+          "dataType": "double",
+          "summarizeBy": "sum",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Raw Material Cost",
+          "dataType": "double",
+          "summarizeBy": "sum",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Labor Cost",
+          "dataType": "double",
+          "summarizeBy": "sum",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Other Direct Exp",
+          "dataType": "double",
+          "summarizeBy": "sum",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Selling and Marketing Expenses",
+          "dataType": "double",
+          "summarizeBy": "sum",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Employee Expenses",
+          "dataType": "double",
+          "summarizeBy": "sum",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Admin Expenses",
+          "dataType": "double",
+          "summarizeBy": "sum",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "R&D",
+          "dataType": "double",
+          "summarizeBy": "sum",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Gross revenue",
+          "dataType": "double",
+          "summarizeBy": "sum",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "net revenue",
+          "dataType": "double",
+          "summarizeBy": "sum",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "COGS",
+          "dataType": "double",
+          "summarizeBy": "sum",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Region",
+          "dataType": "string",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": false
+        },
+        {
+          "name": "Cities",
+          "dataType": "string",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": false
+        },
+        {
+          "name": "Year",
+          "dataType": "",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": true
+        },
+        {
+          "name": "Quarter",
+          "dataType": "",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": true
+        },
+        {
+          "name": "Month",
+          "dataType": "",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": true
+        }
+      ],
+      "measures": []
+    },
+    {
+      "name": "P&L Rows",
+      "hidden": false,
+      "partitionKinds": [
+        "m/import"
+      ],
+      "columns": [
+        {
+          "name": "Account",
+          "dataType": "string",
+          "summarizeBy": "none",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Version",
+          "dataType": "string",
+          "summarizeBy": "none",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Year",
+          "dataType": "int64",
+          "summarizeBy": "sum",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Quarter",
+          "dataType": "int64",
+          "summarizeBy": "sum",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Quarter Name",
+          "dataType": "string",
+          "summarizeBy": "none",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Month",
+          "dataType": "int64",
+          "summarizeBy": "sum",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Month Name",
+          "dataType": "string",
+          "summarizeBy": "none",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Value",
+          "dataType": "double",
+          "summarizeBy": "sum",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Date",
+          "dataType": "dateTime",
+          "summarizeBy": "none",
+          "hidden": false,
+          "calculated": false
+        }
+      ],
+      "measures": []
+    },
+    {
+      "name": "Product",
+      "hidden": false,
+      "partitionKinds": [
+        "m/import"
+      ],
+      "columns": [
+        {
+          "name": "Product Key",
+          "dataType": "string",
+          "summarizeBy": "none",
+          "hidden": true,
+          "calculated": false
+        },
+        {
+          "name": "Category",
+          "dataType": "string",
+          "summarizeBy": "none",
+          "hidden": false,
+          "calculated": false
+        },
+        {
+          "name": "Sub Category",
+          "dataType": "string",
+          "summarizeBy": "none",
+          "hidden": false,
+          "calculated": false
+        }
+      ],
+      "measures": []
+    }
+  ],
+  "relationships": [
+    {
+      "from": "'Fact Transactions'.'Geography Key'",
+      "to": "Geography.'Geography Key'",
+      "crossFilter": "single",
+      "active": true
+    },
+    {
+      "from": "'Fact Transactions'.'Product Key'",
+      "to": "Product.'Product Key'",
+      "crossFilter": "single",
+      "active": true
+    },
+    {
+      "from": "'Fact Transactions'.'Date Key'",
+      "to": "Date.'Date Key'",
+      "crossFilter": "single",
+      "active": true
+    },
+    {
+      "from": "'P&L Rows'.Date",
+      "to": "LocalDateTable_24a7bcf8-019a-4d42-a573-80bd95316999.Date",
+      "crossFilter": "single",
+      "active": true
+    },
+    {
+      "from": "'P&L Measures'.Date",
+      "to": "LocalDateTable_484057c1-8403-47b1-8281-b50c35728a84.Date",
+      "crossFilter": "single",
+      "active": true
+    }
+  ]
+}

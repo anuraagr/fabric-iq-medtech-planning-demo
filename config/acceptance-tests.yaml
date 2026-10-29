@@ -1,0 +1,97 @@
+# Acceptance tests. Status is recorded in state/acceptance-results.json by scripts/validate.py;
+# reports/deployment-status.md is rendered from these definitions plus your local recorded results.
+# mode: automated = executed by `validate.py run`; manual-ui = native UI step, evidence recorded with
+# `validate.py record`; manual-admin = needs a tenant/capacity administrator.
+tests:
+  # ---- Local (no tenant access) -------------------------------------------------------------
+  - id: L-01
+    scope: local
+    title: Unit test suite for configuration, auth, HTTP/LRO, SQL guard, finance logic, TMDL parser, manifest, acceptance store
+    expected: pytest tests/unit exits 0 with no failures
+  - id: L-02
+    scope: local
+    title: Pinned official sample assets verify against SHA-256
+    expected: assets/official contains Northwind_FMCG.pbix and the PowerTable workbook with the pinned size and SHA-256
+  - id: L-03
+    scope: local
+    title: No secrets or tokens in tracked files
+    expected: scan of tracked files finds no bearer tokens, JWTs, client secrets or connection-string passwords
+  - id: L-04
+    scope: local
+    title: Variance and margin rules (zero denominators, cost favorability, scenario/actuals separation)
+    expected: tests/unit/test_finance.py passes
+  # ---- Live, automated, read-only ------------------------------------------------------------
+  - id: T-01
+    scope: live
+    title: Target tenant, identity, workspace and capacity are verified
+    expected: token tenant equals the configured tenant; workspace FabricPlanningDemo exists on an Active planning-capable capacity
+  - id: T-02
+    scope: live
+    title: Semantic models are deployed and return their reference totals
+    expected: "MedTech model: 26 DAX checks equal the generator's reference totals (tolerance 0.5-1); official FMCG baseline: Gross Revenue 2025 = 25,866,900, COGS 2025 = 14,166,310, Gross Profit 2025 = 11,700,590 (tolerance 1)"
+  - id: T-03
+    scope: live
+    title: Fabric SQL writeback database is reachable over T-SQL with the signed-in Entra identity
+    expected: SELECT DB_NAME() succeeds on the writeback database
+  - id: T-04
+    scope: live
+    title: Plan items exist (REST) and Planning's internal system database was auto-created and left untouched
+    expected: both Plan items (MedTech and FMCG baseline) and the __fabric_plan_sys SQL database are present; the demo never queries the system database
+  - id: T-05
+    scope: live
+    title: Plan sheets are configured (exported PlanV1 definition lists the planning, PowerTable and Intelligence sheets)
+    expected: getDefinition on the MedTech plan returns FY2026 Revenue Budget, Rolling Forecast, Scenario Comparison, Profitability P&L (PLANNING), Assets, Employees, Locations (POWERTABLE) and the Intelligence sheets Executive Overview and Scenario Overview (REPORTING); the observed result also reports how many visuals each Intelligence sheet persisted and how many are bound to the measures it exists to show - the written-back budget measure, or the scenario measures read through From Sheets (informational, not a pass criterion)
+  # ---- Live, native UI ---------------------------------------------------------------------
+  - id: T-06
+    scope: live
+    title: A scenario adjustment changes the expected financial outcome
+    expected: the Upside (sales +3 %, COGS -2 %) and Downside (sales -4 %, COGS +3 %) scenarios written back by Planning each differ from the model baseline (Base) by the documented gross profit delta; leaf, region and total nodes reconcile; the scenarios rank by gross profit Upside > Base > Downside; no Base rows are written; no duplicate grains (verified by validate.py run --only T-06 after the Scenario Comparison writeback); the Scenario Overview Intelligence page shows the same outcomes read from the planning sheet (From Sheets) - UI evidence recorded with the result
+    mode: manual-ui
+  - id: T-07
+    scope: live
+    title: PowerTable insert and update persist to the PowerTable SQL database
+    expected: the inserted asset row (MD-1500) and the updated field (MD-1248 Status) are returned by T-SQL on dbo.assets and nothing else changed (verify_powertable.py)
+    mode: manual-ui
+  - id: T-08
+    scope: live
+    title: Infobridge flow is demonstrated or explicitly blocked
+    expected: the FY2026 Forecast measure shared from the Rolling Forecast sheet through an Infobridge query appears in the Scenario Comparison sheet and matches the source (plan definition lists the query and the target sheet references it; values compared in the UI)
+    mode: manual-ui
+  - id: T-09
+    scope: live
+    title: Native writeback round trip - baseline, edit, commit, SQL verification at the correct grain
+    expected: exactly the edited grain changes in the destination table; actuals and other scenarios are unchanged; no duplicate grains
+    mode: manual-ui
+  - id: T-10
+    scope: live
+    title: Reporting reflects the committed value after the required refresh/synchronization
+    expected: DAX over the semantic model returns the committed value after the documented refresh step - the measure equals T-SQL in total, for every region and for the edited leaf (a measure without relationships would repeat the total in every region)
+    mode: manual-ui
+  - id: T-11
+    scope: live
+    title: Role-based security validated per layer (workspace, plan item, semantic model, database, SQL, native Planning security)
+    expected: each role can do exactly what it should; or multi-user validation is recorded as not executed
+    mode: manual-ui
+  - id: T-12
+    scope: live
+    title: Reset removes only demo scenario data and a repeat run creates no duplicates
+    expected: reset.py dry run lists only demo-owned rows of the named scenarios and refuses Base; every registered writeback table has no duplicate latest grains; a repeated writeback leaves the row count unchanged
+  - id: T-13
+    scope: live
+    title: Cleanup dry run lists only demo-owned resources from the manifest
+    expected: cleanup.py (no --confirm) prints only manifest resources marked owned; nothing is deleted
+  - id: T-14
+    scope: live
+    title: Rolling forecast - an open-period input edited in the native sheet is committed to SQL and reconciles in reporting
+    expected: after the Rolling Forecast writeback exactly one leaf (Europe, Oct 2026) changes and its ancestors roll up consistently; closed periods keep the actuals; no duplicate latest grains; T-10 then shows the semantic model equal to T-SQL for the forecast (total, regions, the edited month) and the forecast-vs-budget variance equal to SQL forecast minus SQL budget, and the 12 monthly forecast and budget values that the Intelligence forecast-vs-budget chart plots equal to SQL
+    mode: manual-ui
+  - id: T-15
+    scope: live
+    title: PowerTable column rules - required fields, closed value list, lookups and numeric bounds
+    expected: the saved plan definition holds the configured rules for the Assets sheet (Asset Tag and Status required; Status a closed single select; Assigned To and Location lookups into dbo.employees and dbo.locations; lifetime 1-30 years; price at least 0) and every stored row conforms; the record form refusing an invalid entry is recorded as UI evidence
+    mode: manual-ui
+  - id: T-16
+    scope: live
+    title: Cell comment - a planning-sheet comment is persisted by writeback without assigning or mentioning anyone
+    expected: after the budget writeback the latest row of Europe / Diagnostics & Imaging / Oct 2026 carries the comment in IrComments, the value equals its previous value (the comment did not move the number), and no comment thread in the table has an assignee or an @mention (either would notify a real person)
+    mode: manual-ui
