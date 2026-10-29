@@ -96,10 +96,12 @@ writeback tables. Plan items start empty. A repeated foundation deployment reuse
 The scripts never create, resize or resume a capacity, nor move an existing workspace to a different capacity.
 The selected workspace ID must agree with its configured name. Unowned models cannot be overwritten.
 
-### 4. Build the nine native sheets
+### 4. Configure native inputs and perform writeback
 
-Follow [manual setup](docs/manual-setup.md) in order. It gives sheet names, dimensions, measures,
-forecast settings, PowerTable rules, connections, writeback destinations and visual field assignments.
+Follow [manual setup](docs/manual-setup.md), starting with sections A–E for the planning inputs and
+their first writes. **Pause before building the Intelligence pages:** their reporting measures are
+added in step 5 below (also documented in manual setup F). The guide gives sheet names, dimensions,
+measures, forecast settings, PowerTable rules, connections and visual field assignments.
 The synthetic asset workbook is already included; regenerate it with `scripts/medtech_assets.py build`.
 
 **Capture snapshots before your demonstration edits.** The exact before/edit/after commands and table
@@ -122,6 +124,10 @@ Only after both the budget and forecast tables contain committed data:
 This explicitly replaces the **demo-owned generated model**, checking SQL prerequisites first,
 backing up its current definition under `reports/`, and binding a short-lived SQL credential for refresh.
 Keep custom model extensions outside this generated model or reconcile them before replacement.
+
+Now complete the remaining native setup, including PowerTable (G), Infobridge (H) and both Intelligence
+pages (I/I2). The budget/forecast reporting measures are available for the Executive Overview's wells.
+The completed plan has nine sheets; foundation deployment alone does not.
 
 After subsequent native writes, **refresh without redeploying**:
 
