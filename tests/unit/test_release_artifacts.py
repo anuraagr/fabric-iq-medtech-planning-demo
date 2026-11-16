@@ -4,7 +4,7 @@ import json
 import xml.etree.ElementTree as ET
 
 from scripts.check_repo import check_files, heading_ids
-from scripts.render_architecture import render
+from scripts.render_architecture import render, render_hero
 
 
 def test_diagram_is_parseable_accessible_and_has_editable_visible_text():
@@ -21,6 +21,33 @@ def test_diagram_is_parseable_accessible_and_has_editable_visible_text():
         if element["type"] == "text":
             assert element["width"] > 0 and element["height"] > 0 and element["strokeColor"] == "#000000"
     assert render() == (svg, source)
+
+
+def test_hero_has_accessible_context_and_does_not_depend_on_external_assets():
+    svg = render_hero()
+    root = ET.fromstring(svg)
+    namespace = "{http://www.w3.org/2000/svg}"
+    labels = root.attrib["aria-labelledby"].split()
+    ids = {e.attrib["id"] for e in root.iter() if "id" in e.attrib}
+    assert set(labels) <= ids
+    description = root.find(f"{namespace}desc").text
+    assert "illustrative" in description and "synthetic" in description
+    assert all(f"<{element}" not in svg for element in ("script", "image", "foreignObject"))
+    assert "href=" not in svg and "@import" not in svg and "https://" not in svg
+    assert svg == render_hero()
+
+
+def test_visual_check_includes_cover_and_refuses_a_stale_generated_source(tmp_path, monkeypatch, capsys):
+    from scripts import render_architecture as visuals
+
+    monkeypatch.setattr(visuals, "OUT", tmp_path)
+    monkeypatch.setattr("sys.argv", ["render_architecture.py"])
+    assert visuals.main() == 0
+    monkeypatch.setattr("sys.argv", ["render_architecture.py", "--check"])
+    assert visuals.main() == 0
+    (tmp_path / "hero.svg").write_text("<svg/>", encoding="utf-8")
+    assert visuals.main() == 1
+    assert "Outdated visual: hero.svg" in capsys.readouterr().out
 
 
 def test_repo_checker_detects_dangling_links_and_runtime_files(tmp_path):

@@ -1,31 +1,53 @@
 # MedTech Planning in Microsoft Fabric IQ
 
+![From actuals to a plan you can prove: a native MedTech and Life Sciences planning lab with nine sheets, SQL writeback and synthetic data. The branching scenario paths are illustrative.](docs/images/hero.png)
+
 [![CI](https://github.com/anuraagr/fabric-iq-medtech-planning-demo/actions/workflows/ci.yml/badge.svg)](https://github.com/anuraagr/fabric-iq-medtech-planning-demo/actions/workflows/ci.yml)
 
-A reusable **Solution Engineer demo asset** for native Planning in Microsoft Fabric IQ.
-Show a fictional MedTech company move from historical actuals to a budget, rolling forecast,
-alternative scenarios, SQL writeback, and executive analysis. A companion PowerTable workflow
-manages a medical-device registry.
+[**Use this template**](https://github.com/anuraagr/fabric-iq-medtech-planning-demo/generate) · [Deploy in your tenant](#deploy-in-your-own-tenant) · [Explore the architecture](docs/architecture.md) · [Run the demo](docs/demo-talk-track.md)
 
-**Synthetic data only. No patients, real customers, credentials, or originating-tenant deployment state.**
-The story is deliberately fixed to **FY2026**, with actuals through September 2026, so examples remain reproducible.
+**Build a plan. Change a forecast. Prove what reached the database.**
+This reusable Solution Engineer asset follows a fictional MedTech business from historical actuals
+through budgeting, scenarios and executive analysis—inside **native Microsoft Fabric IQ experiences**.
+A companion medical-device registry brings the operational story into PowerTable.
 
-> **Deployment boundary:** Python automates the Fabric foundation and the reporting connection.
-> The nine native sheets, input actions, and Writeback require the documented **native UI stage**.
-> This is not a one-click importer of another tenant's Plan, and it does not replace Planning with a custom app.
+**Synthetic by design:** no real patients, customers, credentials or originating-tenant state.
+The fixed **FY2026** story uses actuals through September 2026, making the examples reproducible.
+
+> [!IMPORTANT]
+> **Automated foundation. Explicit native setup.** Python provisions the Fabric foundation and attaches
+> reporting. The nine sheets, input actions and Writeback require the documented **native UI stage**.
+> This is not a one-click Plan importer or a custom planning application.
+
+## See the native demo
+
+![Four cropped native Fabric reference screens: Executive Overview with KPIs and trends, Scenario Overview comparing alternatives, Revenue Budget with allocation inputs, and a medical-device PowerTable registry.](docs/images/demo-showcase.png)
+
+**Open a full-resolution screen:**
+[Executive Overview](docs/images/11-intelligence-page.jpg) ·
+[Scenario Overview](docs/images/14-scenario-overview.jpg) ·
+[Revenue Budget](docs/images/01-budget-top-down.jpg) ·
+[Device Registry](docs/images/05-powertable-assets.jpg)
+
+These are real screens from the **synthetic reference deployment**, not UI mockups or evidence that
+your tenant is already configured. [What was demonstrated—and what was not](docs/deployment-status.md).
+
+## Follow the data, not just the visuals
 
 ![Architecture: synthetic data feeds the shared model and native Planning; writeback persists to SQL and refreshes back into model-based analysis. Scenario analysis reads the planning sheet directly. PowerTable is a separate reference-data workflow.](docs/images/architecture.svg)
 
-[Architecture breakdown](docs/architecture.md) · [PNG](docs/images/architecture.png) · [Editable Excalidraw source](docs/images/architecture.excalidraw)
+**Budget and forecast:** native input → SQL Writeback → model refresh → executive analysis.
+**Scenario comparison:** the Intelligence page reads the planning sheet directly.
+**PowerTable:** a separate reference-data workflow, not an assumed revenue integration.
+
+[Architecture breakdown](docs/architecture.md) · [High-resolution PNG](docs/images/architecture.png) · [Editable Excalidraw source](docs/images/architecture.excalidraw)
 
 ## What has been built
 
-| Component | Demonstration | Deployment |
+### Nine native sheets
+
+| Experience | Demonstration | Built with |
 |---|---|---|
-| Dedicated Fabric workspace | Tenant-isolated demo resources on your selected existing capacity | REST |
-| Two business SQL databases | Planning writeback and separate PowerTable reference data | REST; native UI creates the business tables |
-| MedTech semantic model | Deterministic actuals, product/date/geography, P&L drivers, shared measures; 26,970 sales rows | Generated TMDL + REST |
-| Official FMCG baseline | The pinned Microsoft sample semantic model and an empty tutorial Plan item | Verified download + Power BI/Fabric REST |
 | **FY2026 Revenue Budget** | A 268M top-down target; a 250K bottom-up adjustment; ancestor roll-up | Native Planning UI |
 | **Rolling Forecast** | Closed-period actuals, seasonal forecasting, open-period input and forecast writeback | Native Planning UI |
 | **Scenario Comparison** | Base / Upside / Downside; sales and COGS drivers; gross-profit comparison | Native Planning UI |
@@ -33,6 +55,15 @@ The story is deliberately fixed to **FY2026**, with actuals through September 20
 | **Assets / Employees / Locations** | Three PowerTable apps: required fields, controlled lists, lookups, bounds, insert and update | Native PowerTable UI |
 | **Executive Overview** | Revenue/profit cards, actual-vs-budget, forecast-vs-budget, trends, geography/product filters | Native Intelligence UI; semantic-model data |
 | **Scenario Overview** | Scenario sales/COGS cards and monthly comparisons | Native Intelligence UI; **From Sheets** data |
+
+### The foundation behind them
+
+| Component | Purpose | Deployment |
+|---|---|---|
+| Dedicated Fabric workspace | Tenant-isolated demo resources on your selected existing capacity | REST |
+| Two business SQL databases | Planning writeback and separate PowerTable reference data | REST; native UI creates the business tables |
+| MedTech semantic model | Deterministic actuals, product/date/geography, P&L drivers, shared measures; 26,970 sales rows | Generated TMDL + REST |
+| Official FMCG baseline | The pinned Microsoft sample semantic model and an empty tutorial Plan item | Verified download + Power BI/Fabric REST |
 | Infobridge | Forecast measure shared from Rolling Forecast into Scenario Comparison | Native UI query; no custom ETL |
 | Reporting round trip | Latest leaf-level SQL budget/forecast values imported into the model after a refresh | Explicit post-writeback deployment stage |
 | Verification and operations | SQL/DAX checks, snapshots/diffs, refresh, permissions probes, guarded reset/cleanup | Python CLI |
@@ -42,6 +73,13 @@ Scenario gross-profit commentary is static text; its sales/COGS charts are data-
 See [reference evidence and limitations](docs/deployment-status.md) rather than treating screenshots as proof of your deployment.
 
 ## Deploy in your own tenant
+
+**Your route:** select the tenant → provision the foundation → configure native inputs → attach reporting
+→ finish the analytical pages → capture your own proof.
+
+Start from [Use this template](https://github.com/anuraagr/fabric-iq-medtech-planning-demo/generate)
+for an independent repository, or clone this one with the commands below. If you use the template,
+substitute your new repository URL.
 
 ### 1. Prerequisites
 
@@ -156,7 +194,8 @@ tests use isolated fake services; they are not a claim of deployment into a seco
 
 ## Present the demo
 
-Use the [12–15 minute talk track](docs/demo-talk-track.md).
+Use the [12–15 minute talk track](docs/demo-talk-track.md): show the saved reference story first,
+then rehearse one deliberate input-to-SQL-to-analysis change.
 
 1. Executive Overview: performance and filters.
 2. Budget and rolling forecast: top-down allocation and planner input.
@@ -196,5 +235,7 @@ deletion if unrelated items exist. Preserve your manifest; do not delete it as a
 **Not included or not proven:** approvals, multi-user enforcement, Optimizer/Cube, advancing the forecast
 boundary/horizon after creation, automatic propagation of later From Sheets/Infobridge changes, and
 repeated no-edit scenario writeback. This is an SE demonstration asset, not a production governance design.
+
+---
 
 [MIT license](LICENSE) · [Third-party notices](THIRD_PARTY_NOTICES.md) · [Authoritative sources](docs/sources.md)

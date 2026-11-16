@@ -2,9 +2,23 @@
 
 ![Native Planning architecture](images/architecture.svg)
 
-The diagram is generated offline by `python scripts/render_architecture.py`.
+The diagram and README cover are generated offline by `python scripts/render_architecture.py`.
 The [SVG](images/architecture.svg), [PNG](images/architecture.png) and
 [editable Excalidraw source](images/architecture.excalidraw) contain no tenant identifiers.
+
+To regenerate the high-resolution PNGs and the native-screen showcase as well:
+
+```powershell
+python scripts\render_architecture.py --render-png
+```
+
+This uses locally installed Edge and the existing, cropped reference screenshots. For Chrome, add
+`--browser-channel chrome`. No remote rendering, external fonts or tenant access is used.
+`--check` compares the checked-in SVG/Excalidraw sources with the generator in CI.
+
+The visual language uses clinical teal, sea-glass backgrounds and restrained instrument-style labels.
+The cover's branching lines illustrate scenario planning; they are **not plotted financial results**.
+The showcase uses actual native UI captures, with full-resolution originals linked from the README.
 
 ## 1. Foundation and scope
 
